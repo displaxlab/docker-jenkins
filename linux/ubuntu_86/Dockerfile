@@ -28,7 +28,7 @@ RUN apt-get update && \
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     apt-get install -y nodejs
 
-RUN apt-get install software-properties-common
+RUN apt-get install -y software-properties-common
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test && apt-get update && apt-get install gcc-8 g++-8
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8
 RUN apt-get clean
