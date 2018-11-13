@@ -46,7 +46,7 @@ RUN echo "jenkins:qwerty123" | chpasswd
 
 VOLUME "/tmp" 
 
-ENV QT_VERSION=5.11.2 ANDROID_COMPILER=android_armv7
+ENV QT_VERSION=5.11.2 ANDROID_COMPILER=android_x86
 
 RUN mkdir /var/run/sshd && \
     mkdir $JENKINS_AGENT_HOME/Qt && \
@@ -56,7 +56,7 @@ RUN mkdir /var/run/sshd && \
 
 # Download QT installer
 RUN cd / && wget http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run
-COPY qt-installer-noninteractive.qs /qt-installer-noninteractive.qs
+COPY ./qt-installer-noninteractive.qs /qt-installer-noninteractive.qs
 
 # Install QT
 RUN chmod a+x qt-unified-linux-x64-online.run
@@ -116,9 +116,9 @@ ENV ANDROID_NDK_HOME /opt/android-ndk-r17c
 ENV ANDROID_NDK_ROOT /opt/android-ndk-r17c
 ENV ANDROID_NDK_HOST linux-x86_64
 ENV ANDROID_NDK_PLATFORM android-22
-ENV ANDROID_NDK_TOOLCHAIN_PREFIX arm-linux-androideabi
+ENV ANDROID_NDK_TOOLCHAIN_PREFIX x86
 ENV ANDROID_NDK_TOOLCHAIN_VERSION 4.9
-ENV ANDROID_NDK_TOOLS_PREFIX arm-linux-androideabi
+ENV ANDROID_NDK_TOOLS_PREFIX i686-linux-android
 ENV ANDROID_SDK_ROOT $ANDROID_HOME
 ENV NDK $ANDROID_NDK_ROOT
 
