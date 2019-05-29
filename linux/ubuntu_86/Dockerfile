@@ -8,7 +8,7 @@ RUN apt-get update && \
         libssl-dev linux-headers-generic curl git libxrender-dev libnss3-dev libpci-dev \
         libpng3 libpng-dev libjpeg-turbo8 libjpeg-turbo8-dev libicu55 \
         libgles2-mesa libgles2-mesa-dev libfreetype6-dev libsqlite3-dev libgl1-mesa-glx \
-	    libgstreamer0.10-0 libgstreamer0.10-dev libgl1-mesa-dri libgl1-mesa-dev wget openssh-server \
+	libgstreamer0.10-0 libgstreamer0.10-dev libgl1-mesa-dri libgl1-mesa-dev wget openssh-server \
         libogg-dev libvorbis-dev bzip2 gperf bison ruby flex openjdk-8-jdk \
         libudev-dev libudev1 libusb-1.0-0-dev libusb-1.0-0 libhidapi-hidraw0 libhidapi-dev \
         ibgstreamer-plugins-base0.10-dev libasound2-dev libatkmm-1.6-dev libbz2-dev libcap-dev libcups2-dev \
@@ -28,13 +28,10 @@ RUN apt-get update && \
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     apt-get install -y nodejs
 
-RUN apt-get install -y software-properties-common
-RUN add-apt-repository ppa:ubuntu-toolchain-r/test && apt-get update && apt-get install -y gcc-8 g++-8
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8
 RUN apt-get clean
 
 # Qt version
-ENV QT_VERSION_MAJOR=5.10 QT_VERSION=5.10.1
+ENV QT_VERSION_MAJOR=5.11 QT_VERSION=5.11.2
 
 # Compile and install Qt
 ENV QT_DIST /usr/local/Qt/"$QT_VERSION"
@@ -52,7 +49,7 @@ RUN cd $QT_BASE_DIR \
     && make install
 
 # Clean Qt source files
-RUN rm QT_BASE_SRC && rm -rf QT_BASE_DIR && unset $QT_BASE_SRC && unset $QT_BASE_DIR
+RUN rm -rf QT_BASE_DIR
 
 ENV PATH $QT_DIST/bin:$PATH
 
@@ -80,7 +77,7 @@ RUN ./qt-installer-framework-opensource-2.0.0-x86.run --platform minimal --verbo
 
 RUN git clone https://github.com/qbs/qbs.git /qbs \
     && cd /qbs && qmake -r qbs.pro \
-    && make && make install INSTALL_ROOT=$QT_DIST/bin
+    && make && make install
 
 # Add jenkins user
 ARG user=jenkins
@@ -103,7 +100,7 @@ RUN mkdir /var/run/sshd && \
 
 EXPOSE 22
 
-COPY ../clang-format /usr/local/bin
+COPY ./clang-format /usr/local/bin
 
 ENV PATH=$QT_DIST/bin:$PATH QTDIR=$QT_DIST
 
