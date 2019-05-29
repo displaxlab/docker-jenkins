@@ -19,7 +19,7 @@ Controller.prototype.IntroductionPageCallback = function() {
  
 Controller.prototype.TargetDirectoryPageCallback = function()
 {
-    gui.currentPageWidget().TargetDirectoryLineEdit.setText("/usr/local/Qt/Tools/");
+    gui.currentPageWidget().TargetDirectoryLineEdit.setText("/usr/local/Qt/Tools/QtInstallerFramework");
     gui.clickButton(buttons.NextButton);
 }
 
