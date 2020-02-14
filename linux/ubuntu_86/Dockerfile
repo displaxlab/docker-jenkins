@@ -22,7 +22,7 @@ RUN apt-get update && \
         libxcb-sync1 libxcb-util-dev libxcb-util0-dev libxcb-util1 libxcb-xevie0 libxcb-xevie0-dev libxcb-xf86dri0 libxcb-xf86dri0-dev  \
         libdrm-dev libxcb-xfixes0 libxcb-xfixes0-dev libxcb-xkb-dev libxcb-xkb1 libxcb-xprint0 libxcb-xprint0-dev libxcb-xv0 libxcb-xv0-dev libxcb-xvmc0 libxcb-xvmc0-dev libxcb1 libxcb1-dev \
         libxcomposite-dev libxcursor-dev libxdamage-dev libxext-dev libxfixes-dev libxi-dev libxrandr-dev libxrender-dev libxslt-dev libxss-dev libxtst-dev \
-        libgnutls30 python python-dev
+        libgnutls30 python python-dev libdbus-1-dev
 
 # Install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
@@ -31,7 +31,7 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
 RUN apt-get clean
 
 # Qt version
-ENV QT_VERSION_MAJOR=5.11 QT_VERSION=5.11.2
+ENV QT_VERSION_MAJOR=5.14 QT_VERSION=5.14.1
 
 # Compile and install Qt
 ENV QT_DIST /usr/local/Qt/"$QT_VERSION"
@@ -41,7 +41,7 @@ ENV QT_BASE_DIR /qt-everywhere-src-"$QT_VERSION"
 RUN curl -sSL $QT_BASE_SRC | tar xvJ
 RUN cd $QT_BASE_DIR \
     && bash ./configure --help \
-    && bash ./configure -prefix $QT_DIST -no-use-gold-linker -opensource -confirm-license \
+    && bash ./configure -prefix $QT_DIST -linker gold -opensource -confirm-license -skip qtwebengine \
        -openssl-linked -qt-pcre -sql-sqlite -sqlite \
        -qt-xcb -nomake examples -nomake tests \
        -qt-doubleconversion -no-glib \

@@ -10,6 +10,25 @@ Controller.prototype.WelcomePageCallback = function() {
 }
 
 Controller.prototype.CredentialsPageCallback = function() {
+    console.log("Step: " + gui.currentPageWidget());
+    var page = gui.pageWidgetByObjectName("CredentialsPage");
+    page.loginWidget.EmailLineEdit.setText("dpxskinlab@gmail.com");
+    page.loginWidget.PasswordLineEdit.setText("Dpxis1357!");
+    gui.clickButton(buttons.NextButton, 2000);
+}
+
+Controller.prototype.ObligationsPageCallback = function() {
+    console.log("Step: " + gui.currentPageWidget());
+    var page = gui.pageWidgetByObjectName("ObligationsPage");
+    page.obligationsAgreement.setChecked(true);
+    page.completeChanged();
+    gui.clickButton(buttons.NextButton);
+}
+
+Controller.prototype.DynamicTelemetryPluginFormCallback = function() {
+    console.log("Step: " + gui.currentPageWidget());
+    var widget = gui.currentPageWidget();
+    widget.TelemetryPluginForm.statisticGroupBox.disableStatisticRadioButton.checked = true;
     gui.clickButton(buttons.NextButton);
 }
 
@@ -27,16 +46,16 @@ Controller.prototype.ComponentSelectionPageCallback = function() {
     var widget = gui.currentPageWidget();
 
     widget.deselectAll();
-    widget.selectComponent("qt.qt5.5101.gcc_64");
-    widget.selectComponent("qt.qt5.5101.qtcharts.gcc_64");
-    widget.selectComponent("qt.qt5.5101.qtpurchasing.gcc_64");
-    widget.selectComponent("qt.qt5.5101.qtremoteobjects.gcc_64");
-    widget.selectComponent("qt.qt5.5101.qtvirtualkeyboard.gcc_64");
-    widget.selectComponent("qt.qt5.5101.qtwebengine.gcc_64");
-    widget.selectComponent("qt.qt5.5101.qtwebglplugin.gcc_64");
-    widget.selectComponent("qt.qt5.5101.qtscript.gcc_64");
+    widget.selectComponent("qt.qt5.5141.gcc_64");
+    widget.selectComponent("qt.qt5.5141.qtcharts.gcc_64");
+    widget.selectComponent("qt.qt5.5141.qtpurchasing.gcc_64");
+    widget.selectComponent("qt.qt5.5141.qtremoteobjects.gcc_64");
+    widget.selectComponent("qt.qt5.5141.qtvirtualkeyboard.gcc_64");
+    widget.selectComponent("qt.qt5.5141.qtwebengine.gcc_64");
+    widget.selectComponent("qt.qt5.5141.qtwebglplugin.gcc_64");
+    widget.selectComponent("qt.qt5.5141.qtscript.gcc_64");
     widget.selectComponent("qt.extras.qtwebview.qt55.gcc_64");
-    widget.selectComponent("qt.tools.ifw.30");
+    widget.selectComponent("qt.tools.ifw.32");
     gui.clickButton(buttons.NextButton);
 }
 

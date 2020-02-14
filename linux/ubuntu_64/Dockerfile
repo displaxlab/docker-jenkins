@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y \
     libxcb-sync1 libxcb-util-dev libxcb-util0-dev libxcb-util1 libxcb-xevie0 libxcb-xevie0-dev libxcb-xf86dri0 libxcb-xf86dri0-dev  \
     libdrm-dev libxcb-xfixes0 libxcb-xfixes0-dev libxcb-xkb-dev libxcb-xkb1 libxcb-xprint0 libxcb-xprint0-dev libxcb-xv0 libxcb-xv0-dev \
     libxcomposite-dev libxcursor-dev libxdamage-dev libxext-dev libxfixes-dev libxi-dev libxrandr-dev libxrender-dev libxslt-dev libxss-dev libxtst-dev \
-    libdbus-1-dev libdbus-glib-1-dev libgnutls30 python python-dev
+    libdbus-1-dev libdbus-glib-1-dev libgnutls30 python python-dev libxkbcommon-x11-0
 
 # Download and install node
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
@@ -35,17 +35,17 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /u
 
 ARG user=jenkins
 ARG group=jenkins
-ARG uid=1000 
-ARG gid=1000 
-ARG JENKINS_AGENT_HOME=/home/${user} 
-ENV JENKINS_AGENT_HOME ${JENKINS_AGENT_HOME} 
+ARG uid=1000
+ARG gid=1000
+ARG JENKINS_AGENT_HOME=/home/${user}
+ENV JENKINS_AGENT_HOME ${JENKINS_AGENT_HOME}
 RUN groupadd -g ${gid} ${group} \
     && useradd -d "${JENKINS_AGENT_HOME}" -u "${uid}" -g "${gid}" -m -s /bin/bash "${user}" \
     && echo "jenkins:qwerty123" | chpasswd
 
-VOLUME "/tmp" 
+VOLUME "/tmp"
 
-ENV QT_VERSION=5.10.1 QT_COMPILER=gcc_64
+ENV QT_VERSION=5.14.1 QT_COMPILER=gcc_64
 
 RUN mkdir /var/run/sshd && \
     mkdir $JENKINS_AGENT_HOME/Qt && \
