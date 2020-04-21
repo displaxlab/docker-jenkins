@@ -10,6 +10,7 @@ COPY clang-format.exe $CLANGPATH
 
 RUN choco install -y nodejs-lts curl
 RUN choco install -y cmake --version=3.16.6
+RUN choco install -y 7zip
 
 RUN @powershell -NoProfile -ExecutionPolicy unrestricted -Command \
     "C:\\temp\\qt-unified-windows-x86-3.2.2-online.exe" --verbose --script "C:\\temp\\qt-installer-noninteractive.qs"
