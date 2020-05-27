@@ -5,13 +5,13 @@ RUN apt-get update && \
     apt-get install -y \
         gcc g++ build-essential bash libxcb1-dev libicu-dev \
         libssl-dev linux-headers-generic curl git libxrender-dev libnss3-dev libpci-dev \
-        libjpeg-turbo8 libjpeg-turbo8-dev libicu55 \
-        libgles2-mesa libgles2-mesa-dev libsqlite3-dev libgl1-mesa-glx \
+        libpng3 libpng-dev libjpeg-turbo8 libjpeg-turbo8-dev libicu55 \
+        libgles2-mesa libgles2-mesa-dev libfreetype6-dev libsqlite3-dev libgl1-mesa-glx \
 	    libgstreamer0.10-0 libgstreamer0.10-dev libgl1-mesa-dri libgl1-mesa-dev wget openssh-server \
         libogg-dev libvorbis-dev bzip2 gperf bison ruby flex openjdk-8-jdk \
         libudev-dev libudev1 libusb-1.0-0-dev libusb-1.0-0 libhidapi-hidraw0 libhidapi-dev \
         ibgstreamer-plugins-base0.10-dev libasound2-dev libatkmm-1.6-dev libbz2-dev libcap-dev libcups2-dev \
-        libgcrypt11-dev libglu1-mesa-dev libpulse-dev libx11-dev libx11-xcb-dev \
+        libfontconfig1-dev libgcrypt11-dev libglu1-mesa-dev libpulse-dev libx11-dev libx11-xcb-dev \
         libxcb-composite0 libxcb-composite0-dev libxcb-cursor-dev libxcb-cursor0 libxcb-damage0 libxcb-damage0-dev libxcb-dpms0 \
         libxcb-dpms0-dev libxcb-dri2-0 libxcb-dri2-0-dev libxcb-dri3-0 libxcb-dri3-dev libxcb-ewmh-dev libxcb-ewmh2 \
         libxcb-glx0 libxcb-glx0-dev libxcb-icccm4 libxcb-icccm4-dev libxcb-image0 libxcb-image0-dev libxcb-keysyms1 libxcb-keysyms1-dev libxcb-present-dev \
@@ -20,8 +20,8 @@ RUN apt-get update && \
         libxcb-render0 libxcb-render0-dev libxcb-res0 libxcb-res0-dev \
         libxcb-sync1 libxcb-util-dev libxcb-util0-dev libxcb-util1 libxcb-xevie0 libxcb-xevie0-dev libxcb-xf86dri0 libxcb-xf86dri0-dev  \
         libdrm-dev libxcb-xfixes0 libxcb-xfixes0-dev libxcb-xkb-dev libxcb-xkb1 libxcb-xprint0 libxcb-xprint0-dev libxcb-xv0 libxcb-xv0-dev libxcb-xvmc0 libxcb-xvmc0-dev libxcb1 libxcb1-dev \
-        libxcomposite-dev libxcursor-dev libxdamage-dev libxext-dev libxfixes-dev libxi-dev libxrandr-dev libxslt-dev libxss-dev libxtst-dev \
-        libgnutls30 python python-dev libfontconfig1-dev libfreetype6-dev libxkbcommon-x11-dev libpng-dev libdbus-1-dev
+        libxcomposite-dev libxcursor-dev libxdamage-dev libxext-dev libxfixes-dev libxi-dev libxrandr-dev libxrender-dev libxslt-dev libxss-dev libxtst-dev \
+        libgnutls30 python python-dev libdbus-1-dev libxkbcommon-x11-dev
 
 # Install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
@@ -30,6 +30,8 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
 RUN apt-get install -y software-properties-common
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test && apt-get update && apt-get install -y gcc-8 g++-8
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8
+
+RUN apt-get clean
 
 # Choose Qt version
 ENV QT_VERSION_MAJOR 5.14
@@ -40,14 +42,6 @@ ENV QT_DIST /usr/local/Qt/"$QT_VERSION"
 ENV QT_BASE_SRC https://download.qt.io/archive/qt/"$QT_VERSION_MAJOR"/"$QT_VERSION"/single/qt-everywhere-src-"$QT_VERSION".tar.xz
 ENV QT_BASE_DIR /qt-everywhere-src-"$QT_VERSION"
 
-# Install cmake version
-RUN apt purge --auto-remove -y cmake
-ENV cmake_version=3.17
-ENV cmake_build=2
-RUN wget https://cmake.org/files/v$cmake_version/cmake-$cmake_version.$cmake_build.tar.gz
-RUN tar -xzvf cmake-$cmake_version.$cmake_build.tar.gz
-RUN cd cmake-$cmake_version.$cmake_build/ && ./bootstrap && make -j8 && make install
-
 RUN curl -sSL $QT_BASE_SRC | tar xvJ
 RUN cd $QT_BASE_DIR \
     && bash ./configure --help \
@@ -55,7 +49,7 @@ RUN cd $QT_BASE_DIR \
        -openssl-linked -qt-pcre -sql-sqlite -sqlite \
        -qt-xcb -nomake examples -nomake tests \
        -qt-doubleconversion -no-glib \
-    && make -j4 \
+    && make -j8 \
     && make install
 
 # Clean Qt source files
@@ -64,11 +58,20 @@ RUN rm -rf QT_BASE_DIR
 ENV PATH $QT_DIST/bin:$PATH
 ENV QTDIR $QT_DIST
 
+# Install cmake version
+ENV cmake_version=3.17
+ENV cmake_build=2
+RUN wget https://cmake.org/files/v$cmake_version/cmake-$cmake_version.$cmake_build.tar.gz
+RUN tar -xzvf cmake-$cmake_version.$cmake_build.tar.gz
+RUN cd cmake-$cmake_version.$cmake_build/ && ./bootstrap && make -j8 && make install
+
+RUN rm -rf cmake-$cmake_version.$cmake_build
+
 # Build linuxdeployqt
 RUN cd / && git clone https://github.com/probonopd/linuxdeployqt.git \
     && cd linuxdeployqt \
     && qmake \
-    && make \
+    && make -j8 \
     && make install \
     && cd / \
     && rm -rf /linuxdeployqt
@@ -76,7 +79,7 @@ RUN cd / && git clone https://github.com/probonopd/linuxdeployqt.git \
 # Build and build patchelf
 RUN cd / && wget https://nixos.org/releases/patchelf/patchelf-0.9/patchelf-0.9.tar.bz2
 RUN tar xf patchelf-0.9.tar.bz2
-RUN cd patchelf-0.9 && ./configure && make && make install
+RUN cd patchelf-0.9 && ./configure && make -j8 && make install
 
 # Remove patchelf source
 RUN cd / && rm -rf /patchelf-0.9 && rm patchelf-0.9.tar.bz2
@@ -109,9 +112,6 @@ RUN mkdir /var/run/sshd && \
 EXPOSE 22
 
 COPY clang-format /usr/local/bin
-
-ENV PATH $QT_DIST/bin:$PATH
-ENV QTDIR $QT_DIST
 
 RUN echo "\n" >> /etc/profile
 RUN echo PATH=$PATH >> /etc/profile
