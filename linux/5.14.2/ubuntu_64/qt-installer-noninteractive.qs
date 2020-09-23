@@ -49,16 +49,17 @@ Controller.prototype.ComponentSelectionPageCallback = function() {
 
     widget.deselectAll();
     widget.selectComponent("qt.qt5.5142.gcc_64");
-    widget.selectComponent("qt.qt5.5142.qtcharts.gcc_64");
-    widget.selectComponent("qt.qt5.5142.qtpurchasing.gcc_64");
-    widget.selectComponent("qt.qt5.5142.qtremoteobjects.gcc_64");
-    widget.selectComponent("qt.qt5.5142.qtvirtualkeyboard.gcc_64");
-    widget.selectComponent("qt.qt5.5142.qtwebengine.gcc_64");
-    widget.selectComponent("qt.qt5.5142.qtwebglplugin.gcc_64");
-    widget.selectComponent("qt.qt5.5142.qtscript.gcc_64");
-    widget.selectComponent("qt.extras.qtwebview.qt55.gcc_64");
+    widget.selectComponent("qt.qt5.5142.qtcharts");
+    widget.selectComponent("qt.qt5.5142.qtdatavis3d");
+    widget.selectComponent("qt.qt5.5142.qtpurchasing");
+    widget.selectComponent("qt.qt5.5142.qtremoteobjects");
+    widget.selectComponent("qt.qt5.5142.qtvirtualkeyboard");
+    widget.selectComponent("qt.qt5.5142.qtwebengine");
+    widget.selectComponent("qt.qt5.5142.qtwebglplugin");
+    widget.selectComponent("qt.qt5.5142.qtscript");
+    widget.selectComponent("qt.extras.qtwebview.qt55");
     widget.selectComponent("qt.tools.ifw.32");
-    gui.clickButton(buttons.NextButton);
+    gui.clickButton(buttons.NextButton); 
 }
 
 Controller.prototype.LicenseAgreementPageCallback = function() {
