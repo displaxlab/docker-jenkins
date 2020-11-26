@@ -56,6 +56,7 @@ RUN mkdir /var/run/sshd && \
 # Download qt installer
 COPY qt-unified-linux-x64-3.2.2-online.run /qt-unified-linux-x64-3.2.2-online.run
 COPY qt-installer-noninteractive.qs /qt-installer-noninteractive.qs
+COPY ../agent.jar $JENKINS_AGENT_HOME/agent.jar
 
 RUN chmod a+x qt-unified-linux-x64-3.2.2-online.run
 RUN ./qt-unified-linux-x64-3.2.2-online.run --platform minimal --verbose --script qt-installer-noninteractive.qs
