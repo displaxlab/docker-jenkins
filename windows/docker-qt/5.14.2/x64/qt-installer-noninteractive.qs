@@ -49,14 +49,15 @@ Controller.prototype.ComponentSelectionPageCallback = function() {
     var widget = gui.currentPageWidget();
 
     widget.deselectAll();
-    widget.selectComponent("qt.qt5.5141.win64_msvc2017_64");
-    widget.selectComponent("qt.qt5.5141.qtwebglplugin.win64_msvc2017_64");
-    widget.selectComponent("qt.qt5.5141.qtwebengine.win64_msvc2017_64");
-    widget.selectComponent("qt.qt5.5141.qtvirtualkeyboard.win64_msvc2017_64");
-    widget.selectComponent("qt.qt5.5141.qtscript.win64_msvc2017_64");
-    widget.selectComponent("qt.qt5.5141.qtremoteobjects.win64_msvc2017_64");
-    widget.selectComponent("qt.qt5.5141.qtpurchasing.win64_msvc2017_64");
-    widget.selectComponent("qt.qt5.5141.qtcharts.win64_msvc2017_64");
+    widget.selectComponent("qt.qt5.5142.win64_msvc2017_64");
+    widget.selectComponent("qt.qt5.5142.qtwebglplugin");
+    widget.selectComponent("qt.qt5.5142.qtwebengine");
+    widget.selectComponent("qt.qt5.5142.qtvirtualkeyboard");
+    widget.selectComponent("qt.qt5.5142.qtscript");
+    widget.selectComponent("qt.qt5.5142.qtremoteobjects");
+    widget.selectComponent("qt.qt5.5142.qtpurchasing");
+    widget.selectComponent("qt.qt5.5142.qtcharts");
+    widget.selectComponent("qt.qt5.5142.qtdatavis3d");
     widget.selectComponent("qt.tools.ifw.32");
     widget.selectComponent("qt.tools.openssl.win_x64");
 

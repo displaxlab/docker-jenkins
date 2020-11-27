@@ -15,7 +15,7 @@ Controller.prototype.CredentialsPageCallback = function() {
     var page = gui.pageWidgetByObjectName("CredentialsPage");
     page.loginWidget.EmailLineEdit.setText("dpxskinlab@gmail.com");
     page.loginWidget.PasswordLineEdit.setText("Dpxis1357!");
-    gui.clickButton(buttons.NextButton, 2000);
+    gui.clickButton(buttons.NextButton, 4000);
 }
 
 Controller.prototype.ObligationsPageCallback = function() {
@@ -49,18 +49,24 @@ Controller.prototype.ComponentSelectionPageCallback = function() {
     var widget = gui.currentPageWidget();
 
     widget.deselectAll();
-    widget.selectComponent("qt.qt5.5141.win32_msvc2017");
-    widget.selectComponent("qt.qt5.5141.qtwebglplugin.win32_msvc2017");
-    widget.selectComponent("qt.qt5.5141.qtwebengine.win32_msvc2017");
-    widget.selectComponent("qt.qt5.5141.qtvirtualkeyboard.win32_msvc2017");
-    widget.selectComponent("qt.qt5.5141.qtscript.win32_msvc2017");
-    widget.selectComponent("qt.qt5.5141.qtremoteobjects.win32_msvc2017");
-    widget.selectComponent("qt.qt5.5141.qtpurchasing.win32_msvc2017");
-    widget.selectComponent("qt.qt5.5141.qtcharts.win32_msvc2017");
+    widget.selectComponent("qt.qt5.5142.win32_msvc2017");
+    widget.selectComponent("qt.qt5.5142.qtwebglplugin");
+    widget.selectComponent("qt.qt5.5142.qtwebengine");
+    widget.selectComponent("qt.qt5.5142.qtvirtualkeyboard");
+    widget.selectComponent("qt.qt5.5142.qtscript");
+    widget.selectComponent("qt.qt5.5142.qtremoteobjects");
+    widget.selectComponent("qt.qt5.5142.qtpurchasing");
+    widget.selectComponent("qt.qt5.5142.qtcharts");
+    widget.selectComponent("qt.qt5.5142.qtnetworkauth");
+    widget.selectComponent("qt.qt5.5142.qtdatavis3d");
     widget.selectComponent("qt.tools.ifw.32");
     widget.selectComponent("qt.tools.openssl.win_x86");
+    gui.clickButton(buttons.NextButton, 5000);
+}
 
-    gui.clickButton(buttons.NextButton);
+Controller.prototype.PerformInstallationPageCallback = function() {    
+    var widget = gui.currentPageWidget();
+    gui.clickButton(buttons.CommitButton);
 }
 
 Controller.prototype.LicenseAgreementPageCallback = function() {
@@ -87,3 +93,4 @@ Controller.prototype.FinishedPageCallback = function() {
     }
     gui.clickButton(buttons.FinishButton);
 }
+13
